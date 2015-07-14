@@ -1,80 +1,102 @@
 package org.ansj.elasticsearch.pubsub.redis;
 
 
-
 import org.ansj.library.UserDefineLibrary;
 import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
-
 import org.nlpcn.commons.lang.tire.domain.Value;
 import org.nlpcn.commons.lang.tire.library.Library;
 import redis.clients.jedis.JedisPubSub;
 
 public class AddTermRedisPubSub extends JedisPubSub {
 
-	public static ESLogger logger = Loggers.getLogger("ansj-redis-msg");
+    public static ESLogger log = Loggers.getLogger("ansj-redis-msg");
 
-	@Override
-	public void onMessage(String channel, String message) {
-		logger.debug("channel:" + channel + " and message:" + message,
-				new Object[0]);
-		String[] msg = message.split(":");
-		if (msg.length != 3) {
-			return;
-		}
-		if ("u".equals(msg[0])) {
-			if ("c".equals(msg[1])) {
-				UserDefineLibrary.insertWord(msg[2], "userDefine", 1000);
-				FileUtils.append(msg[2]);
-			} else if ("d".equals(msg[1])) {
-				UserDefineLibrary.removeWord(msg[2]);
-				FileUtils.remove(msg[2]);
-			}
-		} else if ("a".equals(msg[0]))
-			if ("c".equals(msg[1])) {
-				String[] cmd = msg[2].split("-");
-				Value value = new Value(cmd[0], cmd[1].split(","));
-				Library.insertWord(UserDefineLibrary.ambiguityForest, value);
-				FileUtils.appendAMB(msg[2].replace(",", "\t").replaceAll("-",
-						"\t"));
-			} else if ("d".equals(msg[1])) {
-				Library.removeWord(UserDefineLibrary.ambiguityForest, msg[2]);
-				FileUtils.removeAMB(msg[2]);
-			}
-	}
+    @Override
+    public void onMessage(final String channel, final String message) {
+        if (log.isDebugEnabled()) {
+            log.debug("channel:" + channel + " and message:" + message);
+        }
+        final String[] fragments = message.split(":");
+        if (fragments.length != 3) {
+            return;
+        }
+        final String dic = fragments[0];
+        final String act = fragments[1];
+        final String val = fragments[2];
+        final UserDefineLibrary userDefineLibrary = UserDefineLibrary.getInstance();
+        switch (dic) {
+            case "u":
+                switch (act) {
+                    case "c":
+                        userDefineLibrary.insertWord(val, "userDefine", 1000);
+                        FileUtils.append(val);
+                        break;
+                    case "d":
+                        userDefineLibrary.removeWord(val);
+                        FileUtils.remove(val);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "a":
+                switch (act) {
+                    case "c":
+                        final String[] cmd = val.split("-");
+                        final Value value = new Value(cmd[0], cmd[1].split(","));
+                        Library.insertWord(userDefineLibrary.getAmbiguityForest(), value);
+                        FileUtils.appendAMB(val.replace(",", "\t").replaceAll("-", "\t"));
+                        break;
+                    case "d":
+                        Library.removeWord(userDefineLibrary.getAmbiguityForest(), val);
+                        FileUtils.removeAMB(val);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
-	@Override
-	public void onPMessage(String pattern, String channel, String message) {
-		logger.debug("pattern:" + pattern + " and channel:" + channel
-				+ " and message:" + message);
-		onMessage(channel, message);
-	}
+    @Override
+    public void onPMessage(final String pattern, final String channel, final String message) {
+        if (log.isDebugEnabled()) {
+            log.debug("pattern:" + pattern + " and channel:" + channel + " and message:" + message);
+        }
+        onMessage(channel, message);
+    }
 
-	@Override
-	public void onPSubscribe(String pattern, int subscribedChannels) {
-		logger.info("psubscribe pattern:" + pattern
-				+ " and subscribedChannels:" + subscribedChannels);
+    @Override
+    public void onPSubscribe(final String pattern, final int subscribedChannels) {
+        if (log.isDebugEnabled()) {
+            log.debug("psubscribe pattern:" + pattern + " and subscribedChannels:" + subscribedChannels);
+        }
 
-	}
+    }
 
-	@Override
-	public void onPUnsubscribe(String pattern, int subscribedChannels) {
-		logger.info("punsubscribe pattern:" + pattern
-				+ " and subscribedChannels:" + subscribedChannels);
+    @Override
+    public void onPUnsubscribe(final String pattern, final int subscribedChannels) {
+        if (log.isDebugEnabled()) {
+            log.debug("punsubscribe pattern:" + pattern + " and subscribedChannels:" + subscribedChannels);
+        }
 
-	}
+    }
 
-	@Override
-	public void onSubscribe(String channel, int subscribedChannels) {
-		logger.info("subscribe channel:" + channel + " and subscribedChannels:"
-				+ subscribedChannels);
+    @Override
+    public void onSubscribe(final String channel, final int subscribedChannels) {
+        if (log.isDebugEnabled()) {
+            log.debug("subscribe channel:" + channel + " and subscribedChannels:" + subscribedChannels);
+        }
 
-	}
+    }
 
-	@Override
-	public void onUnsubscribe(String channel, int subscribedChannels) {
-		logger.info("unsubscribe channel:" + channel
-				+ " and subscribedChannels:" + subscribedChannels);
-	}
-
+    @Override
+    public void onUnsubscribe(final String channel, final int subscribedChannels) {
+        if (log.isDebugEnabled()) {
+            log.debug("unsubscribe channel:" + channel + " and subscribedChannels:" + subscribedChannels);
+        }
+    }
 }

@@ -8,7 +8,7 @@ import redis.clients.jedis.JedisPoolConfig;
 
 public class RedisPoolBuilder {
 	
-	public static ESLogger logger = Loggers.getLogger("ansj-redis-pool");
+	public static ESLogger log = Loggers.getLogger("ansj-redis-pool");
 	
 	private int maxActive=20;
 	private int maxIdle=10;
@@ -18,17 +18,19 @@ public class RedisPoolBuilder {
 	private String ipAddress="master.redis.yao.com:6379";
 	private int port=6379;
 	
-	
 	public int getMaxActive() {
 		return maxActive;
 	}
+
 	public RedisPoolBuilder setMaxActive(int maxActive) {
 		this.maxActive = maxActive;
 		return this;
 	}
+
 	public int getMaxIdle() {
 		return maxIdle;
 	}
+
 	public RedisPoolBuilder setMaxIdle(int maxIdle) {
 		this.maxIdle = maxIdle;
 		return this;
@@ -63,12 +65,12 @@ public class RedisPoolBuilder {
 	}
 	
 	public JedisPool jedisPool(){
-		JedisPoolConfig config = new JedisPoolConfig();
-		config.setMaxActive(getMaxActive());
+		final JedisPoolConfig config = new JedisPoolConfig();
+		config.setMaxTotal(getMaxActive());
 		config.setMaxIdle(getMaxIdle());
-		config.setMaxWait(getMaxWait());
+		config.setMaxWaitMillis(getMaxWait());
 		config.setTestOnBorrow(isTestOnBorrow());
-		String[] ipAndPort = getIpAddress().split(":");
+		final String[] ipAndPort = getIpAddress().split(":");
 		String ip="";
 		int port=0;
 		if(ipAndPort.length==1){
@@ -78,7 +80,7 @@ public class RedisPoolBuilder {
 			ip=ipAndPort[0];
 			port = Integer.valueOf(ipAndPort[1]);
 		}
-		logger.info(ip+":"+port);
+		log.info(ip + ":" + port);
 		return new JedisPool(config, ip, port);
 	}
 }

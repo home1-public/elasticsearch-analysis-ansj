@@ -13,24 +13,28 @@ import org.elasticsearch.index.settings.IndexSettings;
 import java.io.BufferedReader;
 import java.io.Reader;
 
-import static org.ansj.elasticsearch.index.config.AnsjElasticConfigurator.filter;
-import static org.ansj.elasticsearch.index.config.AnsjElasticConfigurator.init;
-import static org.ansj.elasticsearch.index.config.AnsjElasticConfigurator.pstemming;
+import static org.ansj.elasticsearch.index.config.AnsjElasticConfigurator.*;
 
 /**
- * Created by zhangqinghua on 14-9-3.
+ * by zhangqinghua on 14-9-3.
  */
 public class AnsjIndexTokenizerFactory extends AbstractTokenizerFactory {
 
     @Inject
-    public AnsjIndexTokenizerFactory(Index index,@IndexSettings Settings indexSettings,@Assisted String name, @Assisted Settings settings) {
+    public AnsjIndexTokenizerFactory(
+            final Index index,
+            @IndexSettings final Settings indexSettings,
+            @Assisted final String name,
+            @Assisted final Settings settings
+    ) {
         super(index, indexSettings, name, settings);
         init(indexSettings, settings);
     }
 
     @Override
-    public Tokenizer create(Reader reader) {
-        return new AnsjTokenizer(new IndexAnalysis(new BufferedReader(reader)), reader, filter, pstemming);
+    public Tokenizer create(final Reader reader) {
+        return new AnsjTokenizer(
+                new IndexAnalysis(new BufferedReader(reader)), filter, pstemming
+        );
     }
-
 }

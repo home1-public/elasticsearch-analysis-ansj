@@ -24,6 +24,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 public class AnsjElasticConfigurator {
+
     public static ESLogger logger = Loggers.getLogger("ansj-analyzer");
     private static boolean loaded = false;
     public static Set<String> filter;

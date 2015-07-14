@@ -29,7 +29,7 @@ public class RedisUtils {
       
     /**        
      * 关闭数据库连接        
-     * @param conn        
+     * @param jedis
      */       
     public static void closeConnection(Jedis jedis) {            
         if (null != jedis) {                
@@ -44,7 +44,7 @@ public class RedisUtils {
       
     /**        
      * 设置连接池        
-     * @param 数据源       
+     * @param JedisPool
      */       
     public static void setJedisPool(JedisPool JedisPool) {  
     	RedisUtils.jedisPool = JedisPool;        

@@ -4,7 +4,7 @@ import static org.ansj.elasticsearch.index.config.AnsjElasticConfigurator.filter
 import static org.ansj.elasticsearch.index.config.AnsjElasticConfigurator.init;
 import static org.ansj.elasticsearch.index.config.AnsjElasticConfigurator.pstemming;
 
-import org.ansj.lucene4.AnsjIndexAnalysis;
+import org.ansj.lucene5.AnsjIndexAnalysis;
 import org.apache.lucene.analysis.Analyzer;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.assistedinject.Assisted;
@@ -15,29 +15,43 @@ import org.elasticsearch.index.analysis.AbstractIndexAnalyzerProvider;
 import org.elasticsearch.index.settings.IndexSettings;
 
 public class AnsjIndexAnalyzerProvider extends AbstractIndexAnalyzerProvider<Analyzer> {
+
     private final Analyzer analyzer;
 
     @Inject
-    public AnsjIndexAnalyzerProvider(Index index, @IndexSettings Settings indexSettings,
-                                     Environment env, @Assisted String name,
-                                     @Assisted Settings settings) {
+    public AnsjIndexAnalyzerProvider(
+            final Index index,
+            @IndexSettings final Settings indexSettings,
+            final Environment env,
+            @Assisted final String name,
+            @Assisted final Settings settings
+    ) {
         super(index, indexSettings, name, settings);
         init(indexSettings, settings);
-        analyzer = new AnsjIndexAnalysis(filter, pstemming);
+        this.analyzer = new AnsjIndexAnalysis(filter, pstemming);
     }
 
-    public AnsjIndexAnalyzerProvider(Index index, Settings indexSettings, String name,
-                                     Settings settings) {
+    public AnsjIndexAnalyzerProvider(
+            final Index index,
+            final Settings indexSettings,
+            final String name,
+            final Settings settings
+    ) {
         super(index, indexSettings, name, settings);
         init(indexSettings, settings);
-        analyzer = new AnsjIndexAnalysis(filter, pstemming);
+        this.analyzer = new AnsjIndexAnalysis(filter, pstemming);
     }
 
-    public AnsjIndexAnalyzerProvider(Index index, Settings indexSettings, String prefixSettings,
-                                     String name, Settings settings) {
+    public AnsjIndexAnalyzerProvider(
+            final Index index,
+            final Settings indexSettings,
+            final String prefixSettings,
+            final String name,
+            final Settings settings
+    ) {
         super(index, indexSettings, prefixSettings, name, settings);
         init(indexSettings, settings);
-        analyzer = new AnsjIndexAnalysis(filter, pstemming);
+        this.analyzer = new AnsjIndexAnalysis(filter, pstemming);
     }
 
     @Override

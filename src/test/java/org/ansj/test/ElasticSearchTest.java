@@ -2,7 +2,8 @@ package org.ansj.test;
 
 
 public class ElasticSearchTest {
-    public static void main(String[] args) {
+
+    public static void main(final String[] args) {
 
         System.out.println("+ - && || ! ( ) { } [ ] ^ \" ~ * ?".replaceAll("(\\+|-|&|\\||!|\\^|\"|~|\\*|\\?|\\[|\\]|\\(|\\)|\\{|\\})", "\\\\\\\\$1"));
 //        //构建一个内存型索引

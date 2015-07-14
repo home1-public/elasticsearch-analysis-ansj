@@ -7,21 +7,21 @@ import org.elasticsearch.plugins.AbstractPlugin;
 
 public class AnalysisAnsjPlugin extends AbstractPlugin {
 
-    @Override public String name() {
+    @Override
+    public String name() {
         return "analysis-ansj";
     }
 
-
-    @Override public String description() {
+    @Override
+    public String description() {
         return "ansj analysis";
     }
 
-
-    @Override public void processModule(Module module) {
+    @Override
+    public void processModule(final Module module) {
         if (module instanceof AnalysisModule) {
             AnalysisModule analysisModule = (AnalysisModule) module;
             analysisModule.addProcessor(new AnsjAnalysisBinderProcessor());
         }
     }
-    
 }
