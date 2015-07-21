@@ -19,3 +19,5 @@ hs_err_pid*
 /target/
 log/
 .DS_Store
+*-pom.xml
+install.sh

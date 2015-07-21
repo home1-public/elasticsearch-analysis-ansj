@@ -1,9 +1,5 @@
-package org.ansj.elasticsearch.index;
+package org.ansj.elasticsearch;
 
-import org.ansj.elasticsearch.index.analysis.AnsjIndexAnalyzerProvider;
-import org.ansj.elasticsearch.index.analysis.AnsjQueryAnalyzerProvider;
-import org.ansj.elasticsearch.index.tokenizer.AnsjIndexTokenizerFactory;
-import org.ansj.elasticsearch.index.tokenizer.AnsjQueryTokenizerFactory;
 import org.elasticsearch.index.analysis.AnalysisModule;
 
 public class AnsjAnalysisBinderProcessor extends AnalysisModule.AnalysisBinderProcessor {

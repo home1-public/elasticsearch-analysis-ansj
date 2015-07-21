@@ -1,11 +1,11 @@
-package org.ansj.test.org.ansj.elasticsearch.pubsub.redis;
+package org.ansj.elasticsearch;
 
 import org.junit.Test;
 
 import java.util.regex.Pattern;
 
 /**
- * Created by zhl on 15/7/14.
+ * by zhl on 15/7/14.
  */
 public class FileUtilsTest {
 

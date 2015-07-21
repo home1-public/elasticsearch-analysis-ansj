@@ -6,11 +6,11 @@
     <formats>
         <format>zip</format>
     </formats>
-    <fileSets>  
-        <fileSet>  
-            <directory>${project.basedir}/src/main/dic</directory>  
-            <outputDirectory>/dic</outputDirectory>  
-        </fileSet>  
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/src/main/dic</directory>
+            <outputDirectory>/ansj</outputDirectory>
+        </fileSet>
     </fileSets>
     <dependencySets>
         <dependencySet>
@@ -22,6 +22,6 @@
                 <exclude>com.spatial4j:spatial4j</exclude>
             </excludes>
             <scope>compile</scope>
-        </dependencySet>        
+        </dependencySet>
     </dependencySets>
 </assembly>

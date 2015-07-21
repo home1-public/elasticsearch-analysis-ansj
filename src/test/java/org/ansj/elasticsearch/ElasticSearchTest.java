@@ -1,4 +1,4 @@
-package org.ansj.test;
+package org.ansj.elasticsearch;
 
 
 public class ElasticSearchTest {
